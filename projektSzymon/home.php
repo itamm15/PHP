@@ -85,6 +85,34 @@
         min-width: 430px;
         min-height: 310px;
     }
+    .container-contact{
+        width: 100%;
+        height: 500px;
+        background-color: #343a40;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+    .kontakt{
+        width: 100%;
+        height: 400px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .mapa{
+        color: white;
+        width: 100%;
+        height: 400px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        margin-left: 50px;
+    }
+    .kontakt a{
+        color: white;
+    }
     </style>
 </head>
 <body>
@@ -95,8 +123,18 @@
             <a href="#container-articles">Artykuły</a>
             <a href="myaccount.php">Moje konto</a>
             <a href="shopping_cart.php">Koszyk</a>
-            <a href="">Kontakt</a>
-            <a href="logout.php">Wyloguj się</a>
+            <a href="#contact">Kontakt</a>
+            <?php
+                if(isset($_SESSION['email'])){
+                    echo "
+                    <a href='logout.php'>Wyloguj się</a>
+                    ";
+                }else{
+                    echo <<<LOGIN
+                    <a href='log_reg.php'>Zaloguj się</a>
+                    LOGIN;
+                }
+            ?>
         </div>
     </div>
 <!--PICTURE-->
@@ -109,7 +147,7 @@
     <div id="container-articles"></div>
     <div class="container-articles">
         <div class="container-articles-first">
-        <form method="POST" action="shopping_cart.php">
+        <form method="POST" action="home.php">
         <table>
             <tr>
             <th>Procesory intel</th>
@@ -144,16 +182,30 @@
                 }
             ?>
             <tr>
-            <th><input type="text" name="quantity" value="1"></th>
+            <th><input type="number" name="quantity" placeholder="0"></th>
             </tr>
-            <input type="hidden" name="hidden_name" value="<?php echo $row['name'] ;?>">
-            <input type="hidden" name="hidden_price" value="<?php echo $row['price'] ;?>">
+            <input type="hidden" name="hidden_name">
+            <input type="hidden" name="hidden_price">
             <tr>
             <th><input type="submit" name="add_to_cart_1"></th>
             </tr>
         </table>
+        <?php
+                if(isset($_POST['add_to_cart_1'])){
+                    $nazwa = 'Intel Core 5';
+                    $ilosc = $_POST['quantity'];
+                    $price = 1000;
+                    //echo $nazwa."<br>".$ilosc."<br>".$price;
+                    $select = "INSERT INTO `zamowienia`(`nazwa`, `ilosc`, `cena`) 
+                               VALUES ('$nazwa','$ilosc','$price')";
+                    $result = mysqli_query($con, $select);
+
+                }
+            ?>
+        </form>
         </div>
         <div class="container-articles-second">
+        <form method="POST" action="home.php">
         <table>
             <tr>
             <th>Dysk SSD</th>
@@ -188,16 +240,30 @@
             }
             ?>
             <tr>
-            <th><input type="text" name="quantity" value="1"></th>
+            <th><input type="number" name="quantity" placeholder="0"></th>
             </tr>
-            <input type="hidden" name="hidden_name" value="<?php echo $row['name'] ;?>">
-            <input type="hidden" name="hidden_price" value="<?php echo $row['price'] ;?>">
+            <input type="hidden" name="hidden_name">
+            <input type="hidden" name="hidden_price">
             <tr>
             <th><input type="submit" name="add_to_cart_2"></th>
             </tr>
             </table>
+            <?php
+                if(isset($_POST['add_to_cart_2'])){
+                    $nazwa = 'Dysk SSD';
+                    $ilosc = $_POST['quantity'];
+                    $price = 450;
+                    //echo $nazwa."<br>".$ilosc."<br>".$price;
+                    $select = "INSERT INTO `zamowienia`(`nazwa`, `ilosc`, `cena`) 
+                               VALUES ('$nazwa','$ilosc','$price')";
+                    $result = mysqli_query($con, $select);
+
+                }
+            ?>
+            </form>
         </div>
         <div class="container-articles-third">
+        <form method="POST" action="home.php">
         <table>
             <tr>
             <th>Płyta główna</th>
@@ -232,16 +298,41 @@
                 }
             ?>
             <tr>
-            <th><input type="text" name="quantity" value="1"></th>
+            <th><input type="number" name="quantity" placeholder="0"></th>
             </tr>
             <input type="hidden" name="hidden_name">
-            <input type="hidden" name="hidden_price" value="<?php echo $row['price'] ;?>">
+            <input type="hidden" name="hidden_price">
             <tr>
             <th><input type="submit" name="add_to_cart_3"></th>
             </tr>
             </table>
+            <?php
+                if(isset($_POST['add_to_cart_3'])){
+                    $nazwa = 'Płyta główna MSI';
+                    $ilosc = $_POST['quantity'];
+                    $price = 550;
+                    //echo $nazwa."<br>".$ilosc."<br>".$price;
+                    $select = "INSERT INTO `zamowienia`(`nazwa`, `ilosc`, `cena`) 
+                               VALUES ('$nazwa','$ilosc','$price')";
+                    $result = mysqli_query($con, $select);
+
+                }
+            ?>
             </form>
         </div>
     </div>
+
+<!--Kontakt-->
+<h1 style="text-align: center; background-color:  #343a40;color: white;font-size: 22px;">Kontakt oraz ulokowanie</h1>
+<div class="container-contact" id="contact">
+    <div class="mapa">
+        <p>Nasza lokalizacja</p>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d19530.367488195963!2d16.69078916906385!3d52.27432914665074!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47044bf7d3481a4b%3A0x455c4f3a4ac5951e!2s62-060%20St%C4%99szew!5e0!3m2!1spl!2spl!4v1617717598870!5m2!1spl!2spl" width="600" height="380" style="border:0; margin-top: 50px;"allowfullscreen="" loading="lazy"></iframe>
+    </div>
+    <div class="kontakt">
+        <p><a href="tel:123-456-789">Numer telefonu 123-456-789</a></p>
+        <p><a href="mailto:wojcik.szymon@gmail.com">Adres email wojcik.szymon@gmail.com</a> </p>
+    </div>
+</div>
 </body>
 </html>

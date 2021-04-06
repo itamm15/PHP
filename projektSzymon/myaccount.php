@@ -30,7 +30,7 @@
         text-decoration: none;
     }
     .container-data{
-        width: 100%;
+        width: 80%;
         display: flex;
         justify-content: space-between;
     }
@@ -44,6 +44,7 @@
         <h2><a href="update.php" style="color: black;">Moje dane!</a></h2>
         <table border="2" style="display: flex;text-align: center;">
             <th>email</th>
+            <th>Usuń konto</th>
         </tr>
         <?php
             $con = mysqli_connect('localhost', 'root', '', 'szymon_projekt');
@@ -59,6 +60,7 @@
                 echo "
                 <tr>
                 <td>".$act_con['email']."</td>
+                <td><a href='delete.php?rn=$act_con[email]' style='color: black; margin-left: 5px;'>Usuń</a></td>
                 </tr>
                 ";
             }
