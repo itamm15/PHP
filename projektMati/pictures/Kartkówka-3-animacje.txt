@@ -1,0 +1,129 @@
+import React, {useState} from 'react';
+import {
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  TouchableHighlight,
+  View,
+  Animated
+} from 'react-native';
+
+
+
+const App: () => React$Node = () => {
+  const [anim, setAnim] = useState(new Animated.Value(0));
+
+  const animacja = ()=>{
+
+    Animated.timing(anim, {
+      toValue: 1,
+      duration: 5000,
+      useNativeDriver: false,
+    }).start();
+  }
+
+  return (
+    <View style={styles.body}>
+      <View style={[{width: 350}]}>
+        <Animated.View style={[
+          styles.mainView,
+          {
+            transform:
+              [{
+                translateX: anim.interpolate({
+                  inputRange: [0, 1],
+                  outputRange: [0, 240]
+                })
+              }]
+          }
+          ]}>
+          <Animated.View style={[
+            styles.dot,
+            {
+              backgroundColor: anim.interpolate({
+                inputRange: [0, 1],
+                outputRange: ["#FF0000", "#00FF00"]
+              })
+            }, 
+            {transform: 
+              [{
+                translateY: anim.interpolate({
+                  inputRange: [0, 1], 
+                  outputRange: [10, 220]
+                })
+              }]
+            }
+            ]}></Animated.View>
+          <Animated.View style={[
+            styles.dot,
+            {
+              backgroundColor: anim.interpolate({
+                inputRange: [0, 1],
+                outputRange: ["#0000FF", "#FFFF00"]
+              })
+            }, 
+            {transform: 
+              [{
+                translateY: anim.interpolate({
+                  inputRange: [0, 1], 
+                  outputRange: [170, -40]
+                })
+              }]
+            }
+            ]}></Animated.View>
+        </Animated.View>
+      </View>
+      <View>
+        <TouchableOpacity 
+          style={styles.btn} 
+          onPress={()=>{
+            animacja();
+          }}
+        >
+          <Text style={styles.btnText}>Start</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  body:{
+    flex: 1,
+    alignItems: "center",
+    borderColor: "red",
+    borderWidth: 1,
+    backgroundColor: "#add8e6"
+  },
+  btn:{
+    backgroundColor: "green",
+    width: 200,
+    height: 50,
+    borderWidth: 1,
+    borderColor: "red",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  btnText:{
+    fontSize: 20
+  },
+  dot:{
+    height: 50,
+    width: 50,
+    borderRadius: 50,
+    borderColor: "red",
+    borderWidth: 1
+  },
+  mainView:{
+    height: 300,
+    borderColor: "black",
+    borderWidth: 1,
+    width: 100,
+    alignItems: "center",
+    padding: 10,
+    margin: 20
+  }
+});
+
+export default App;
